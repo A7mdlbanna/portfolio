@@ -118,7 +118,7 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
     Project(
       title: "Ag Atelier",
       description: "Is a Saudi Brand that tempts to display high-quality clothes for high-quality ladies.",
-      technologies: [],
+      technologies: ["E-commerce", "Payment Gateway", "FCM", "Clean Architecture"],
       appStoreLink: "https://apps.apple.com/us/app/ag-atelier/id1662371496",
       appGalleryLink: "https://appgallery.huawei.com/app/C108562419",
       imageUrl: "assets/images/ag_atelier.png",
@@ -126,7 +126,7 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
     Project(
       title: "Expect the Winner",
       description: "Is an expectations app that allows you to expect your favorite team score and win prizes.",
-      technologies: [],
+      technologies: ["Streaming Video", "Socket.IO", "FCM", "Clean Architecture"],
       appStoreLink: "https://apps.apple.com/us/app/expect-the-winner/id6448974950",
       appGalleryLink: "https://appgallery.huawei.com/app/C108562535",
       microsoftStoreLink: "https://www.microsoft.com/store/productId/9NT8JFGN7X2G?ocid=pdpshare",
@@ -222,13 +222,23 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
 
   static const List<SocialLink> socialLinks = [
     SocialLink(
+      platform: "Email",
+      url: "mailto:ahmedbanna200@gmail.com",
+      iconUrl: "",
+    ),
+    SocialLink(
       platform: "LinkedIn",
       url: "https://linkedin.com/in/a7mdlbanna",
       iconUrl: "", // Use font awesome
     ),
     SocialLink(
-      platform: "Codeforces",
-      url: "https://codeforces.com/profile/A7md_lbanna",
+      platform: "WhatsApp",
+      url: "https://wa.me/201099309297",
+      iconUrl: "",
+    ),
+    SocialLink(
+      platform: "GitHub",
+      url: "https://github.com/A7mdlbanna",
       iconUrl: "",
     ),
     SocialLink(
@@ -242,13 +252,8 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
       iconUrl: "",
     ),
     SocialLink(
-      platform: "Facebook",
-      url: "https://fb.com/a7mdlbanna",
-      iconUrl: "",
-    ),
-    SocialLink(
-      platform: "Instagram",
-      url: "https://www.instagram.com/a7md_lbanna/",
+      platform: "Codeforces",
+      url: "https://codeforces.com/profile/A7md_lbanna",
       iconUrl: "",
     ),
   ];

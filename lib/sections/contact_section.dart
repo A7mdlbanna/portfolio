@@ -10,15 +10,21 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    bool isMobile = screenWidth < 800;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 24 : 40,
+        vertical: 40,
+      ),
       color: AppColors.surface,
       child: Column(
         children: [
           Text("Connect with me", style: AppTextStyles.header)
               .animate()
-              .fadeIn()
-              .moveY(begin: 20),
+              .fadeIn(duration: 800.ms)
+              .moveY(begin: 20, duration: 800.ms),
           const SizedBox(height: 32),
           Wrap(
             spacing: 24,
@@ -26,40 +32,75 @@ class ContactSection extends StatelessWidget {
             alignment: WrapAlignment.center,
             children: PortfolioData.socialLinks.map((link) {
               IconData icon;
+              VoidCallback? onPressed;
+              
               switch (link.platform.toLowerCase()) {
+                case 'whatsapp':
+                  icon = FontAwesomeIcons.whatsapp;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri, mode: LaunchMode.externalApplication);
+                    }
+                  };
+                  break;
+                case 'email':
+                  icon = FontAwesomeIcons.envelope;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri);
+                    }
+                  };
+                  break;
                 case 'linkedin':
                   icon = FontAwesomeIcons.linkedin;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) launchUrl(uri);
+                  };
                   break;
                 case 'github':
                   icon = FontAwesomeIcons.github;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) launchUrl(uri);
+                  };
                   break;
                 case 'codeforces':
-                  icon = FontAwesomeIcons.code; // Approximation
+                  icon = FontAwesomeIcons.code;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) launchUrl(uri);
+                  };
                   break;
                 case 'discord':
                   icon = FontAwesomeIcons.discord;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) launchUrl(uri);
+                  };
                   break;
                 case 'stackoverflow':
                   icon = FontAwesomeIcons.stackOverflow;
-                  break;
-                case 'facebook':
-                  icon = FontAwesomeIcons.facebook;
-                  break;
-                case 'instagram':
-                  icon = FontAwesomeIcons.instagram;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) launchUrl(uri);
+                  };
                   break;
                 default:
                   icon = FontAwesomeIcons.link;
+                  onPressed = () async {
+                    final uri = Uri.parse(link.url);
+                    if (await canLaunchUrl(uri)) launchUrl(uri);
+                  };
               }
 
               return IconButton(
-                onPressed: () async {
-                  final uri = Uri.parse(link.url);
-                  if (await canLaunchUrl(uri)) launchUrl(uri);
-                },
+                onPressed: onPressed,
                 icon: FaIcon(icon, size: 32, color: AppColors.textPrimary),
                 tooltip: link.platform,
-              ).animate().fadeIn(delay: 200.ms).scale();
+              ).animate().fadeIn(delay: 200.ms, duration: 800.ms).scale(duration: 800.ms);
             }).toList(),
           ),
           const SizedBox(height: 48),

@@ -46,6 +46,7 @@ class PortfolioHomePage extends StatefulWidget {
 
 class _PortfolioHomePageState extends State<PortfolioHomePage> {
   final projectsKey = GlobalKey();
+  final contactKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
   bool _showBackToTopButton = false;
 
@@ -75,6 +76,16 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     }
   }
 
+  void _scrollToContact() {
+    if (contactKey.currentContext != null) {
+      Scrollable.ensureVisible(
+        contactKey.currentContext!,
+        duration: const Duration(milliseconds: 1000),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
   void _scrollToTop() {
     _scrollController.animateTo(
       0,
@@ -88,17 +99,56 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     double screenWidth = MediaQuery.of(context).size.width;
     bool isMobile = screenWidth < 800;
     
-    // Project Grid Layout
-    int crossAxisCount = screenWidth > 1500 ? 4 : screenWidth > 1100 ? 3 : screenWidth > 800 ? 2 : 1;
-    double aspectRatio = crossAxisCount == 1 ? 1.8 : 1.3;
-    if (screenWidth < 500) aspectRatio = 1.3;
+    // Project Grid Layout - Dynamic aspect ratio calculation
+    int crossAxisCount;
+
+    if (screenWidth > 2100) {
+      crossAxisCount = 6;
+    } else if (screenWidth > 1800) {
+      crossAxisCount = 5;
+    } else if (screenWidth > 1500) {
+      crossAxisCount = 4;
+    } else if (screenWidth > 1200) {
+      crossAxisCount = 3;
+    } else if (screenWidth > 550) {
+      crossAxisCount = 2;
+    } else {
+      crossAxisCount = 1;
+    }
+
+    // Dynamic aspect ratio formula:
+    // - Takes into account screen width and number of columns
+    // - More columns = lower ratio (taller cards)
+    // - Fewer columns = higher ratio (shorter cards)
+    // Formula: baseRatio + (columnFactor / crossAxisCount) + (widthFactor * screenWidth / 10000)
+    double baseRatio = 0.8;
+    double columnFactor = 1.2;
+    double widthFactor = 0.3;
+
+    double? aspectRatio = baseRatio +
+                        (columnFactor / crossAxisCount) +
+                        (widthFactor * screenWidth / 10000);
+
+    // Clamp to reasonable bounds (0.85 to 2.2)
+    aspectRatio = aspectRatio.clamp(0.85, 2.2);
+
+    // Special handling for specific column counts
+    if(crossAxisCount == 1) {
+      aspectRatio = screenWidth / 300;
+    }
+    if(crossAxisCount == 2) {
+      aspectRatio =  (screenWidth / 750);
+    }
 
     return Scaffold(
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
           SliverToBoxAdapter(
-            child: HomeSection(onViewProjects: _scrollToProjects),
+            child: HomeSection(
+              onViewProjects: _scrollToProjects,
+              onContactMe: _scrollToContact,
+            ),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 30)),
           const SliverToBoxAdapter(child: Divider(color: Colors.white10, height: 1)),
@@ -185,7 +235,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                     child: ProjectCard(project: PortfolioData.projects[index])
                         .animate()
                         .fadeIn(duration: 800.ms, curve: Curves.easeOutQuad)
-                        .slideY(begin: 0.1, end: 0, duration: 800.ms, curve: Curves.easeOutQuad),
+                        .slideX(begin: 0.2, end: 0, duration: 800.ms, curve: Curves.easeOutQuad),
                   );
                 },
                 childCount: PortfolioData.projects.length,
@@ -199,7 +249,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           const SliverToBoxAdapter(child: SkillsSection()),
           const SliverToBoxAdapter(child: SizedBox(height: 30)),
           const SliverToBoxAdapter(child: Divider(color: Colors.white10, height: 1)),
-          const SliverToBoxAdapter(child: ContactSection()),
+          SliverToBoxAdapter(
+            key: contactKey,
+            child: const ContactSection(),
+          ),
           const SliverToBoxAdapter(child: SizedBox(height: 50)),
         ],
       ),

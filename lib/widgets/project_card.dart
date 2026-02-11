@@ -26,7 +26,7 @@ class _ProjectCardState extends State<ProjectCard> {
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 400),
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(12),
@@ -79,7 +79,7 @@ class _ProjectCardState extends State<ProjectCard> {
             Text(
               widget.project.description,
               style: AppTextStyles.body.copyWith(fontSize: 13),
-              maxLines: 10,
+              maxLines: 5,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 12),
@@ -100,7 +100,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 );
               }).toList(),
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

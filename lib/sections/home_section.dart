@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:portfolio/data/portfolio_data.dart';
 import 'package:portfolio/utils/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeSection extends StatelessWidget {
   final VoidCallback? onViewProjects;
+  final VoidCallback? onContactMe;
 
-  const HomeSection({super.key, this.onViewProjects});
+  const HomeSection({super.key, this.onViewProjects, this.onContactMe});
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +70,7 @@ class HomeSection extends StatelessWidget {
                   child: const Text("View Projects", style: TextStyle(fontSize: 18, color: Colors.white)),
                 ),
                 OutlinedButton(
-                  onPressed: () async {
-                     final uri = Uri.parse("mailto:ahmedbanna200@gmail.com");
-                     if (await canLaunchUrl(uri)) launchUrl(uri);
-                  },
+                  onPressed: onContactMe,
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     side: const BorderSide(color: AppColors.primary, width: 2),
