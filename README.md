@@ -124,7 +124,7 @@ This project is open source and available under the MIT License.
 
 Ahmed El Banna - ahmedbanna200@gmail.com
 
-Portfolio: [https://your-username.github.io/portfolio/](https://your-username.github.io/portfolio/)
+Portfolio: [https://a7mdlbanna.github.io/portfolio/](https://a7mdlbanna.github.io/portfolio/)
 
 ---
 
