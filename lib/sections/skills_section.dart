@@ -48,7 +48,7 @@ class SkillsSection extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
-                            side: BorderSide(color: AppColors.primary.withOpacity(0.5), width: 1),
+                            side: BorderSide(color: AppColors.primary.withValues(alpha: 0.5), width: 1),
                           ),
                         ).animate().fadeIn(delay: 400.ms, duration: 600.ms).scale(duration: 600.ms);
                       }).toList(),

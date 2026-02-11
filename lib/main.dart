@@ -6,7 +6,6 @@ import 'package:portfolio/widgets/project_card.dart';
 import 'package:portfolio/sections/contact_section.dart';
 import 'package:portfolio/sections/experience_section.dart';
 import 'package:portfolio/sections/home_section.dart';
-import 'package:portfolio/sections/projects_section.dart';
 import 'package:portfolio/sections/skills_section.dart';
 import 'package:portfolio/utils/constants.dart';
 

@@ -54,6 +54,7 @@ class ExperienceCard extends StatefulWidget {
   final bool isMobile;
 
   const ExperienceCard({
+    super.key,
     required this.experience,
     required this.isMobile,
   });
