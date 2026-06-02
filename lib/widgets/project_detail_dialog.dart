@@ -218,7 +218,7 @@ class ProjectDetailDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildLinkButton(String label, String url, IconData icon) {
+  Widget _buildLinkButton(String label, String url, FaIconData icon) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white10,

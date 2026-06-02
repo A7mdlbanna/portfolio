@@ -198,7 +198,7 @@ class _ProjectCardState extends State<ProjectCard> {
 }
 
 class _LinkButton extends StatelessWidget {
-  final IconData icon;
+  final FaIconData icon;
   final String url;
   final String tooltip;
 

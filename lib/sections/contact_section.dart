@@ -31,7 +31,7 @@ class ContactSection extends StatelessWidget {
             runSpacing: 24,
             alignment: WrapAlignment.center,
             children: PortfolioData.socialLinks.map((link) {
-              IconData icon;
+              FaIconData icon;
               VoidCallback? onPressed;
               
               switch (link.platform.toLowerCase()) {
