@@ -1,15 +1,24 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/data/portfolio_data.dart';
-import 'package:portfolio/widgets/project_card.dart';
+import 'package:portfolio/models/project_model.dart';
 import 'package:portfolio/sections/contact_section.dart';
 import 'package:portfolio/sections/experience_section.dart';
 import 'package:portfolio/sections/home_section.dart';
 import 'package:portfolio/sections/skills_section.dart';
 import 'package:portfolio/utils/constants.dart';
+import 'package:portfolio/utils/url_helper.dart' as url_helper;
+import 'package:portfolio/widgets/project_card.dart';
+import 'package:portfolio/widgets/project_detail_dialog.dart';
 
 void main() {
+  if (kIsWeb) {
+    usePathUrlStrategy();
+    url_helper.captureInitialHash();
+  }
   runApp(const MyApp());
 }
 
@@ -28,11 +37,23 @@ class MyApp extends StatelessWidget {
           seedColor: AppColors.primary,
           brightness: Brightness.dark,
           surface: AppColors.surface,
-          background: AppColors.background,
         ),
         textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
       ),
-      home: const PortfolioHomePage(),
+      onGenerateInitialRoutes: (initialRoute) {
+        return [
+          MaterialPageRoute(
+            settings: RouteSettings(name: initialRoute),
+            builder: (context) => const PortfolioHomePage(),
+          ),
+        ];
+      },
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const PortfolioHomePage(),
+        );
+      },
     );
   }
 }
@@ -49,6 +70,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   final contactKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
   bool _showBackToTopButton = false;
+  String? _currentOpenSlug;
+  bool _isScrollingToProjects = false;
 
   @override
   void initState() {
@@ -58,6 +81,22 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
         _showBackToTopButton = _scrollController.offset >= 400;
       });
     });
+
+    // Initialize hash change listener for web
+    url_helper.initHashListener(() {
+      _checkUrlAndHash();
+    });
+
+    // Run initial URL checks after first frame is drawn
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final initialHash = url_helper.getInitialHash();
+      if (initialHash.isNotEmpty) {
+        url_helper.clearInitialHash();
+        url_helper.navigateToProject(initialHash);
+      } else {
+        _checkUrlAndHash();
+      }
+    });
   }
 
   @override
@@ -66,13 +105,71 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     super.dispose();
   }
 
-  void _scrollToProjects() {
+  void _checkUrlAndHash() {
+    if (!mounted) return;
+
+    // 1. Check path route to auto-scroll
+    if (url_helper.isProjectsRoute()) {
+      if (!_isScrollingToProjects) {
+        _isScrollingToProjects = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted) {
+              _scrollToProjects(updateUrl: false);
+            }
+          });
+        });
+      }
+    } else {
+      _isScrollingToProjects = false;
+    }
+
+    // 2. Check hash slug to open project detail dialog
+    final hashSlug = url_helper.getHash();
+    if (hashSlug.isNotEmpty) {
+      if (_currentOpenSlug != hashSlug) {
+        Project? project;
+        for (var p in PortfolioData.projects) {
+          if (p.slug == hashSlug) {
+            project = p;
+            break;
+          }
+        }
+
+        if (project != null) {
+          final oldSlug = _currentOpenSlug;
+          _currentOpenSlug = hashSlug;
+
+          if (oldSlug != null) {
+            Navigator.of(context).pop();
+          }
+
+          ProjectDetailDialog.show(context, project, () {
+            if (_currentOpenSlug == hashSlug) {
+              _currentOpenSlug = null;
+              url_helper.clearHash();
+            }
+          });
+        }
+      }
+    } else {
+      if (_currentOpenSlug != null) {
+        _currentOpenSlug = null;
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
+  void _scrollToProjects({bool updateUrl = true}) {
     if (projectsKey.currentContext != null) {
       Scrollable.ensureVisible(
         projectsKey.currentContext!,
         duration: const Duration(milliseconds: 1000),
         curve: Curves.easeInOut,
       );
+      if (updateUrl) {
+        url_helper.updatePathToProjects();
+      }
     }
   }
 
@@ -92,6 +189,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       duration: const Duration(milliseconds: 1000),
       curve: Curves.easeInOut,
     );
+    url_helper.updatePathToHome();
   }
 
   @override
