@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use
 
 import 'dart:html' as html;
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 String _initialHash = '';
@@ -161,5 +162,20 @@ void updatePathToHome() {
       html.window.history.pushState(null, html.document.title, newPath);
       html.window.dispatchEvent(html.HashChangeEvent('hashchange'));
     }
+  }
+}
+
+String getOrCreateVisitorId() {
+  try {
+    final storage = html.window.localStorage;
+    String? visitorId = storage['visitor_id'];
+    if (visitorId == null || visitorId.isEmpty) {
+      final rand = math.Random().nextInt(900000) + 100000;
+      visitorId = 'usr_${DateTime.now().millisecondsSinceEpoch ~/ 1000}_$rand';
+      storage['visitor_id'] = visitorId;
+    }
+    return visitorId;
+  } catch (e) {
+    return 'fallback_visitor';
   }
 }

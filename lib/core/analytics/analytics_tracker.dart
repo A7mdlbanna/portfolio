@@ -1,5 +1,6 @@
 import 'package:portfolio/core/analytics/analytics_events.dart';
 import 'package:portfolio/core/analytics/analytics_service.dart';
+import 'package:portfolio/utils/url_helper.dart' as url_helper;
 
 class AnalyticsTracker {
   static String? _lastTrackedProjectId;
@@ -26,6 +27,7 @@ class AnalyticsTracker {
     if (!_shouldTrack(AnalyticsEvents.projectOpen, projectId)) return;
     AnalyticsService.instance.logEvent(AnalyticsEvents.projectOpen, {
       'project_id': projectId,
+      'visitor_id': url_helper.getOrCreateVisitorId(),
     });
   }
 
@@ -34,6 +36,7 @@ class AnalyticsTracker {
     if (!_shouldTrack(AnalyticsEvents.projectOpenDeeplink, projectId)) return;
     AnalyticsService.instance.logEvent(AnalyticsEvents.projectOpenDeeplink, {
       'project_id': projectId,
+      'visitor_id': url_helper.getOrCreateVisitorId(),
     });
   }
 
@@ -47,6 +50,7 @@ class AnalyticsTracker {
       'project_id': projectId,
       'url': url,
       'type': type,
+      'visitor_id': url_helper.getOrCreateVisitorId(),
     });
   }
 
@@ -58,6 +62,7 @@ class AnalyticsTracker {
     AnalyticsService.instance.logEvent(AnalyticsEvents.socialClick, {
       'platform': platform,
       'url': url,
+      'visitor_id': url_helper.getOrCreateVisitorId(),
     });
   }
 }

@@ -11,3 +11,4 @@ void captureInitialHash() {}
 String getInitialHash() => '';
 void clearInitialHash() {}
 void navigateToProject(String slug) {}
+String getOrCreateVisitorId() => '';
