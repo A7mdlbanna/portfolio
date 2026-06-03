@@ -87,6 +87,17 @@ class _ProjectCardState extends State<ProjectCard> {
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
               ),
+              if (widget.project.stats != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  widget.project.stats!,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ],
               const SizedBox(height: 12),
               Wrap(
                 spacing: 6,

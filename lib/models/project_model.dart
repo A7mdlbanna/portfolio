@@ -8,6 +8,7 @@ class Project {
   final String? microsoftStoreLink;
   final String? demoLink;
   final String? imageUrl;
+  final String? stats;
 
   const Project({
     required this.title,
@@ -19,6 +20,7 @@ class Project {
     this.microsoftStoreLink,
     this.demoLink,
     this.imageUrl,
+    this.stats,
   });
 
   String get slug => title.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\s-]'), '').replaceAll(RegExp(r'\s+'), '-');

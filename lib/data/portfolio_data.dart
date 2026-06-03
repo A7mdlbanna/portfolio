@@ -8,10 +8,9 @@ class PortfolioData {
   static const String name = "Ahmed El Banna";
   static const String title = "Senior Flutter Developer";
   static const String bio = '''
-Senior Flutter Developer with hands-on experience building, maintaining, and scaling mobile applications.
-I work with Flutter to create scalable Android & iOS apps, integrate APIs, and solve complex technical problems with clean, maintainable solutions.
-I’ve worked with companies across Saudi Arabia, Australia, and Egypt, contributing to apps from early development to release and post-launch support.
-Currently open to challenging Flutter roles where I can add value and grow.''';
+I'm a Senior Flutter Developer with experience building and scaling mobile and desktop applications used by thousands of users. 
+I've worked with companies across Saudi Arabia, Australia, and Egypt, taking products from early development through launch and post-release support.
+I specialize in real-time systems, API and payment integrations, and building clean, maintainable solutions that handle complex requirements at scale.''';
   static const String email = "ahmedbanna200@gmail.com";
   static const String resumeUrl = "https://drive.google.com/file/d/1KcS2RC11Z6deiDm5xYzSBTYm43ZzBsOc/view?usp=sharing";
 
@@ -52,6 +51,7 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
       appStoreLink: "https://apps.apple.com/us/app/pos-glary/id6450933028",
       microsoftStoreLink: "https://www.microsoft.com/store/productId/9PKW4K2QBKHX",
       imageUrl: "assets/images/glary_pos.png",
+      stats: "Used by 4,000+ merchants",
     ),
     Project(
       title: "Wadjet GO",
@@ -70,6 +70,7 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
       playStoreLink: "https://play.google.com/store/apps/details?id=techsuptime.track",
       appStoreLink: "https://apps.apple.com/us/app/wadjet-go/id1367895784", // Seemed duplicated in readme but copying as is
       imageUrl: "assets/images/techsup_time_track.png",
+      stats: "Used by 500+ companies",
     ),
     Project(
       title: "Sherbo Assistant",
@@ -80,6 +81,7 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
       appStoreLink: "https://apps.apple.com/us/app/sherbo-assistant/id6464474169",
       appGalleryLink: "https://appgallery.huawei.com/app/C110116431",
       imageUrl: "assets/images/sherbo_assistant.png",
+      stats: "Serving 10,000+ active students",
     ),
     Project(
       title: "Auctus",
@@ -171,9 +173,8 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
       period: "Jul 2025 – Dec 2025",
       type: "Full-time",
       description: [
-        "Refactored legacy codebases and maintained complex, large-scale mobile applications.",
-        "Enhanced UI/UX and resolved functional issues, ensuring consistent, stable performance across devices",
-        "Rebuilt the application end-to-end with a new feature set and modern UI design, delivering ~150% performance improvement and significantly enhanced usability and code quality.",
+        "Rebuilt a legacy workforce tracking app into a dual-role platform (manager & employee), now used by 500+ companies.",
+        "Grew the app from 3 pages to 70+ screens with a stable cross-platform experience across Android and iOS",
       ],
     ),
     Experience(
@@ -182,8 +183,8 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
       period: "Jan 2025 – Jul 2025",
       type: "Part-time",
       description: [
-        "Built high-end responsive and adaptive applications.",
-        "Integrated Google services, including Google Calendar and Gemini, with synchronization across web platforms.",
+        "Built a responsive, offline-first task and calendar app with full Google Calendar sync.",
+        "Integrated Gemini AI for smart task prioritization and real-time cross-platform sync via Socket.IO.",
       ],
     ),
     Experience(
@@ -192,30 +193,18 @@ Currently open to challenging Flutter roles where I can add value and grow.''';
       period: "Sep 2022 – Mar 2025",
       type: "Full-time",
       description: [
-        "Developed scalable, responsive, and adaptive applications, delivering high availability and performance.",
-        "Built cross-platform applications optimized for mobile and desktop.",
-        "Delivered and maintained multiple client-facing applications.",
+        "Designed and built Glary POS from scratch, now used by 4,000+ merchants across mobile and fixed terminals with NFC payments, offline-first invoicing, and thermal printing.",
+        "Developed and maintained 5+ client-facing apps across Android and iOS with adaptive layouts.",
       ],
     ),
     Experience(
       company: "Custom Mind",
-      role: "Senior Flutter Developer",
+      role: "Flutter Developer",
       period: "Nov 2023 – Dec 2024",
       type: "Part-time",
       description: [
-        "Refactored application architecture, improving Sherbo Assistant performance by approximately 200%.",
-        "Led a team of developers, ensuring best practices, code quality, and technical design.",
-        "Delivered production-ready applications with strong performance guarantees.",
-      ],
-    ),
-    Experience(
-      company: "Cyber Lab",
-      role: "Flutter Developer",
-      period: "Sep 2022 – Jun 2023",
-      type: "Part-time",
-      description: [
-        "Produced clean, testable, efficient, and secure code following best engineering practices.",
-        "Designed and delivered high-volume, mission-critical applications with a focus on scalability, responsiveness, and reliability.",
+        "Migrated Sherbo Assistant to Clean Architecture, improving performance by ~200% for 10,000+ active students.",
+        "Established folder structure and coding standards in collaboration with the dev team.",
       ],
     ),
   ];

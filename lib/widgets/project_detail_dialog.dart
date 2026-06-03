@@ -125,6 +125,17 @@ class ProjectDetailDialog extends StatelessWidget {
                           color: AppColors.textPrimary.withValues(alpha: 0.9),
                         ),
                       ),
+                      if (project.stats != null) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          project.stats!,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 24),
                       
                       // Technologies
