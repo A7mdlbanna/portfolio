@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/models/project_model.dart';
 import 'package:portfolio/utils/constants.dart';
+import 'package:portfolio/core/analytics/analytics_tracker.dart';
 import 'package:portfolio/utils/url_helper.dart' as url_helper;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -125,30 +126,40 @@ class _ProjectCardState extends State<ProjectCard> {
                       icon: FontAwesomeIcons.googlePlay,
                       url: widget.project.playStoreLink!,
                       tooltip: 'Google Play',
+                      projectId: widget.project.slug,
+                      type: 'store',
                     ),
                   if (widget.project.appStoreLink != null)
                     _LinkButton(
                       icon: FontAwesomeIcons.appStore,
                       url: widget.project.appStoreLink!,
                       tooltip: 'App Store',
+                      projectId: widget.project.slug,
+                      type: 'store',
                     ),
                   if (widget.project.microsoftStoreLink != null)
                     _LinkButton(
                       icon: FontAwesomeIcons.microsoft,
                       url: widget.project.microsoftStoreLink!,
                       tooltip: 'Microsoft Store',
+                      projectId: widget.project.slug,
+                      type: 'store',
                     ),
                   if (widget.project.appGalleryLink != null)
                     _LinkButton(
                       icon: FontAwesomeIcons.store,
                       url: widget.project.appGalleryLink!,
                       tooltip: 'AppGallery',
+                      projectId: widget.project.slug,
+                      type: 'store',
                     ),
                   if (widget.project.demoLink != null)
                     _LinkButton(
                       icon: FontAwesomeIcons.link,
                       url: widget.project.demoLink!,
                       tooltip: 'Demo/Drive',
+                      projectId: widget.project.slug,
+                      type: 'demo',
                     ),
                 ],
               )
@@ -212,11 +223,15 @@ class _LinkButton extends StatelessWidget {
   final FaIconData icon;
   final String url;
   final String tooltip;
+  final String projectId;
+  final String type;
 
   const _LinkButton({
     required this.icon,
     required this.url,
     required this.tooltip,
+    required this.projectId,
+    required this.type,
   });
 
   @override
@@ -226,6 +241,11 @@ class _LinkButton extends StatelessWidget {
       tooltip: tooltip,
       icon: FaIcon(icon, size: 32, color: AppColors.textSecondary),
       onPressed: () async {
+        AnalyticsTracker.trackProjectLinkClick(
+          projectId: projectId,
+          url: url,
+          type: type,
+        );
         final uri = Uri.parse(url);
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);

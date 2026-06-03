@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/models/project_model.dart';
 import 'package:portfolio/utils/constants.dart';
+import 'package:portfolio/core/analytics/analytics_tracker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProjectDetailDialog extends StatelessWidget {
@@ -191,19 +192,19 @@ class ProjectDetailDialog extends StatelessWidget {
     final buttons = <Widget>[];
 
     if (project.playStoreLink != null) {
-      buttons.add(_buildLinkButton("Google Play", project.playStoreLink!, FontAwesomeIcons.googlePlay));
+      buttons.add(_buildLinkButton("Google Play", project.playStoreLink!, FontAwesomeIcons.googlePlay, "store"));
     }
     if (project.appStoreLink != null) {
-      buttons.add(_buildLinkButton("App Store", project.appStoreLink!, FontAwesomeIcons.appStore));
+      buttons.add(_buildLinkButton("App Store", project.appStoreLink!, FontAwesomeIcons.appStore, "store"));
     }
     if (project.microsoftStoreLink != null) {
-      buttons.add(_buildLinkButton("Microsoft Store", project.microsoftStoreLink!, FontAwesomeIcons.microsoft));
+      buttons.add(_buildLinkButton("Microsoft Store", project.microsoftStoreLink!, FontAwesomeIcons.microsoft, "store"));
     }
     if (project.appGalleryLink != null) {
-      buttons.add(_buildLinkButton("AppGallery", project.appGalleryLink!, FontAwesomeIcons.store));
+      buttons.add(_buildLinkButton("AppGallery", project.appGalleryLink!, FontAwesomeIcons.store, "store"));
     }
     if (project.demoLink != null) {
-      buttons.add(_buildLinkButton("View Demo", project.demoLink!, FontAwesomeIcons.link));
+      buttons.add(_buildLinkButton("View Demo", project.demoLink!, FontAwesomeIcons.link, "demo"));
     }
 
     if (buttons.isEmpty) return const SizedBox.shrink();
@@ -229,7 +230,7 @@ class ProjectDetailDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildLinkButton(String label, String url, FaIconData icon) {
+  Widget _buildLinkButton(String label, String url, FaIconData icon, String type) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white10,
@@ -244,6 +245,11 @@ class ProjectDetailDialog extends StatelessWidget {
       icon: FaIcon(icon, size: 14, color: AppColors.textSecondary),
       label: Text(label, style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500)),
       onPressed: () async {
+        AnalyticsTracker.trackProjectLinkClick(
+          projectId: project.slug,
+          url: url,
+          type: type,
+        );
         final uri = Uri.parse(url);
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);

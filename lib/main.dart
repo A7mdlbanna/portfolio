@@ -11,6 +11,7 @@ import 'package:portfolio/sections/home_section.dart';
 import 'package:portfolio/sections/skills_section.dart';
 import 'package:portfolio/utils/constants.dart';
 import 'package:portfolio/utils/url_helper.dart' as url_helper;
+import 'package:portfolio/core/analytics/analytics_tracker.dart';
 import 'package:portfolio/widgets/project_card.dart';
 import 'package:portfolio/widgets/project_detail_dialog.dart';
 
@@ -91,6 +92,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final initialHash = url_helper.getInitialHash();
       if (initialHash.isNotEmpty) {
+        AnalyticsTracker.trackDeepLink(initialHash);
         url_helper.clearInitialHash();
         url_helper.navigateToProject(initialHash);
       } else {
@@ -144,7 +146,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             Navigator.of(context).pop();
           }
 
+          AnalyticsTracker.trackProjectOpen(project.slug);
+
           ProjectDetailDialog.show(context, project, () {
+            AnalyticsTracker.clearLastTrackedProject();
             if (_currentOpenSlug == hashSlug) {
               _currentOpenSlug = null;
               url_helper.clearHash();

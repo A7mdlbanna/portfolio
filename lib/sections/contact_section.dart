@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portfolio/data/portfolio_data.dart';
 import 'package:portfolio/utils/constants.dart';
+import 'package:portfolio/core/analytics/analytics_tracker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactSection extends StatelessWidget {
@@ -97,7 +98,15 @@ class ContactSection extends StatelessWidget {
               }
 
               return IconButton(
-                onPressed: onPressed,
+                onPressed: () {
+                  AnalyticsTracker.trackSocialClick(
+                    platform: link.platform,
+                    url: link.url,
+                  );
+                  if (onPressed != null) {
+                    onPressed();
+                  }
+                },
                 icon: FaIcon(icon, size: 32, color: AppColors.textPrimary),
                 tooltip: link.platform,
               ).animate().fadeIn(delay: 200.ms, duration: 800.ms).scale(duration: 800.ms);
